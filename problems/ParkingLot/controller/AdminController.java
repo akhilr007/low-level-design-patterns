@@ -33,9 +33,14 @@ public class AdminController {
         System.out.println("[CONTROLLER] Slots added successfully by admin");
     }
 
+
     public void updatePricingRule(VehicleType vehicleType, double ratePerHour, double flatRate) {
-        System.out.println("[CONTROLLER] Admin request to update pricing for " + vehicleType);
-        adminService.updatePricingRule(vehicleType, ratePerHour, flatRate);
+        updatePricingRule(vehicleType, ratePerHour, flatRate, null);
+    }
+
+    public void updatePricingRule(VehicleType vehicleType, double ratePerHour, double flatRate, String strategyType) {
+        System.out.println("[CONTROLLER] Admin request to update pricing for " + vehicleType + (strategyType != null ? (" with strategy " + strategyType) : ""));
+        adminService.updatePricingRule(vehicleType, ratePerHour, flatRate, strategyType);
         System.out.println("[CONTROLLER] Pricing rule updated successfully by admin");
     }
 

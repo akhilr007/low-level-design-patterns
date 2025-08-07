@@ -103,13 +103,22 @@ public class AdminService {
         addSlotsToFloor(floorNumber, slotType, count);
     }
 
+
     public void updatePricingRule(VehicleType vehicleType, double ratePerHour, double flatRate) {
-        System.out.println("[SERVICE] Updating pricing rule for " + vehicleType);
+        updatePricingRule(vehicleType, ratePerHour, flatRate, null);
+    }
+
+    public void updatePricingRule(VehicleType vehicleType, double ratePerHour, double flatRate, String strategyType) {
+        System.out.println("[SERVICE] Updating pricing rule for " + vehicleType + (strategyType != null ? (" with strategy " + strategyType) : ""));
 
         PricingRule rule = pricingRuleRepository.findByVehicleType(vehicleType)
                 .orElseThrow(() -> new IllegalStateException("Pricing rule not found for " + vehicleType));
 
-        rule.updateRates(ratePerHour, flatRate);
+        if (strategyType != null) {
+            rule.updateRates(ratePerHour, flatRate, strategyType);
+        } else {
+            rule.updateRates(ratePerHour, flatRate);
+        }
         pricingRuleRepository.update(rule);
         System.out.println("[SERVICE] Pricing rule updated successfully");
     }
