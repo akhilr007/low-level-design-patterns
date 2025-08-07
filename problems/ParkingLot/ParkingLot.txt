@@ -1,0 +1,135 @@
+Step 1 : clarify functional requirements
+
+Entry flow:
+-> Vehicles arrive at gate
+-> Assign slot based on vehicle type
+-> Generate ticket
+-> Mark slot as occupied
+-> Return entry response
+
+Exit flow:
+-> Present ticket
+-> Calculate fees using pricing rules
+-> Process payment
+-> Release slot
+-> Return exit response with receipt
+
+Admin flow:
+-> Add/edit/update/delete floors and slots
+-> Define update pricing rules
+-> View parking lot status
+
+Edge cases:
+-> Payment failure at exit
+-> Lost ticket
+-> System clock mismatch
+-> Slot marked occupied wrongly
+
+Step 2 : Identify core entities
+
+Vehicle:
+- id uuid
+- licensePlate string
+- vehicleType enum
+
+Slot:
+- id uuid
+- slotType enum
+- isOccupied boolean
+- floorNumber int
+
+Floor:
+- id uuid
+- floorNumber int
+- slots List<Slot>
+
+Ticket:
+- id uuid
+- vehicleId uuid
+- slotId uuid
+- entryTime time
+- isActive boolean
+
+Receipt:
+- id uuid
+- ticketId uuid
+- exitTime time
+- totalFee double
+- paymentStatus enum
+
+PricingRule:
+- vehicleType
+- ratePerHour
+- flatRate
+- ruleType
+
+Payment:
+- id uuid
+- ticketId uuid
+- amount double
+- status enum
+
+EntryResult/ExitResult:
+- success boolean
+- data response
+- message string
+
+Step 3 : Visual Interaction flows
+
+Entry flow:
+- Vehicle arrives
+- Slot allocated
+- Ticket generated
+- Slot marked as occupied
+
+Exit flow:
+- Ticket scanned
+- Fee calculated
+- Payment processed (with retries)
+- Receipt generated
+- Slot released
+- Ticket deactivated
+
+Admin flow:
+- Add floor
+- Add slot
+- Update pricing
+
+Step 4 :
+Client layer -> Controller layer -> Service layer -> Repository layer -> Entity layer
+
+Controller layer:
+- EntryController.enterVehicle()
+- ExitController.exitVehicle()
+- AdminController.addFloor(), addSlot(), updatePricing()
+
+Services:
+
+TicketService: Generate and retrieve ticketsS
+
+SlotService: Allocates and releases parking slots
+
+PricingService: Calculates fees based on parking duration and typeP
+
+PaymentService: Processes payments for parking tickets
+
+ReceiptService: Generate receipts after payment
+
+AdminService: Handles administrative tasks
+
+Repositories:
+Managing CRUD operations
+
+Interfaces:
+- Abstracting payment gateway interactions
+
+
+Step 5 : Implement core use cases
+
+Entry flow:
+
+enterVehicle() -> SlotService.allocateSlot() -> TicketService.generateTicket() ->
+TicketRepositor.save() -> Return entryResult
+
+exitVehicle() -> GetTicket -> CalculateFee -> ProcessPayment(with retries) ->
+Release slot -> Generate Receipt -> Return exitResult
