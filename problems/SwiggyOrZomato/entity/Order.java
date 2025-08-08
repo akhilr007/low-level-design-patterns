@@ -48,7 +48,7 @@ public abstract class Order {
 
     public abstract boolean makePayment();
 
-    public abstract void createOrder();
+    public abstract void placeOrder();
 
 
 }

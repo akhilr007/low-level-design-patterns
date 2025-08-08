@@ -4,7 +4,6 @@ import problems.SwiggyOrZomato.entity.*;
 import problems.SwiggyOrZomato.factory.order.OrderFactory;
 import problems.SwiggyOrZomato.strategy.payment.CashPaymentStrategy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SwiggySimulation {
@@ -33,7 +32,8 @@ public class SwiggySimulation {
         // create order
         Order jaiOrder = OrderFactory.createOrder(jai, taj, OrderType.DELIVERY);
         jaiOrder.setPaymentStrategy(new CashPaymentStrategy());
-
+        OrderManager.getInstance().addOrder(jaiOrder);
+        jaiOrder.placeOrder();
         jaiOrder.makePayment();
 
         OrderManager.getInstance().addOrder(jaiOrder);

@@ -26,7 +26,7 @@ public class PickupOrder extends Order {
     }
 
     @Override
-    public void createOrder() {
+    public void placeOrder() {
         this.user.setOrders(OrderFactory.createOrder(user, restaurant, orderType));
         this.orderStatus = OrderStatus.ORDER_PLACED;
         NotificationManager.getInstance().addObserver(new UserNotification());

@@ -6,6 +6,7 @@ import problems.SwiggyOrZomato.observer.NotificationObserver;
 import problems.SwiggyOrZomato.observer.RestaurantNotification;
 import problems.SwiggyOrZomato.observer.UserNotification;
 import problems.SwiggyOrZomato.strategy.DeliveryPartner.DeliveryPartnerAllocationStrategy;
+import problems.SwiggyOrZomato.strategy.DeliveryPartner.NearRestaurantDeliveryPartnerStrategy;
 import problems.SwiggyOrZomato.strategy.payment.UPIPaymentStrategy;
 
 public class DeliveryOrder extends Order{
@@ -19,6 +20,7 @@ public class DeliveryOrder extends Order{
         this.restaurant = restaurant;
         this.orderType = orderType;
         this.paymentStrategy = new UPIPaymentStrategy();
+        this.deliveryPartnerAllocationStrategy = new NearRestaurantDeliveryPartnerStrategy();
     }
 
     @Override
@@ -28,7 +30,7 @@ public class DeliveryOrder extends Order{
     }
 
     @Override
-    public void createOrder() {
+    public void placeOrder() {
         this.user.setOrders(OrderFactory.createOrder(user, restaurant, orderType));
         this.deliveryPartner = deliveryPartnerAllocationStrategy.assignDeliveryPartner();
         this.orderStatus = OrderStatus.ORDER_PLACED;

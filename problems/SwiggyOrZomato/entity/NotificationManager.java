@@ -22,6 +22,7 @@ public class NotificationManager {
         for (NotificationObserver observer : observers) {
             observer.notify(order);
         }
+        observers.clear();
     }
 
     public static NotificationManager getInstance() {
