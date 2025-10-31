@@ -1,0 +1,7 @@
+Design a payment processor system, like the ones we see when we checkout cart for order
+
+Requirements:
+1) Wallet, UPI, Cash on Delivery, Netbanking, Cards support
+2) Sorting based on payment processor type. So, we should be able to sort based on our inputs. Like keeping UPI on the top because its currently processing most payments successfully, and keeping the ones that are throttling or failing at the bottom.
+3) Offers based on payment processor type. So payment processor might be giving offers.
+4) Code should be extensible to support future payment processors integration
